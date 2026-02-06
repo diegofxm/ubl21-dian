@@ -124,7 +124,7 @@ type InvoiceTemplateData struct {
 	IssueTime          string
 	DueDate            string
 	InvoiceTypeCode    string
-	Note               string
+	Notes              []string
 	CurrencyCode       string
 	LineCount          int
 
@@ -136,24 +136,28 @@ type InvoiceTemplateData struct {
 	Delivery *DeliveryTemplateData
 
 	// Payment
-	PaymentMeans PaymentMeansTemplateData
+	PaymentMeans []PaymentMeansTemplateData
 
 	// Monetary Totals
-	PrepaidAmount       string
-	LineExtensionAmount string
-	TaxExclusiveAmount  string
-	TaxInclusiveAmount  string
-	PayableAmount       string
+	PrepaidAmount        string
+	LineExtensionAmount  string
+	TaxExclusiveAmount   string
+	TaxInclusiveAmount   string
+	AllowanceTotalAmount string
+	ChargeTotalAmount    string
+	PayableAmount        string
 
 	// Lines
 	InvoiceLines []InvoiceLineTemplateData
 
 	// Optional sections
-	TaxTotals           []TaxTotalTemplateData
-	AllowanceCharges    []AllowanceChargeTemplateData
-	WithholdingTaxTotal []WithholdingTaxTemplateData
-	OrderReference      *OrderReferenceTemplateData
-	BillingReference    *BillingReferenceTemplateData
+	InvoicePeriod        *InvoicePeriodTemplateData
+	PrepaidPayment       *PrepaidPaymentTemplateData
+	TaxTotals            []TaxTotalTemplateData
+	AllowanceCharges     []AllowanceChargeTemplateData
+	WithholdingTaxTotals []WithholdingTaxTemplateData
+	OrderReference       *OrderReferenceTemplateData
+	BillingReference     *BillingReferenceTemplateData
 }
 
 // PartyTemplateData representa un Supplier o Customer
@@ -293,6 +297,17 @@ type WithholdingTaxTemplateData struct {
 // OrderReferenceTemplateData representa referencia a orden de compra
 type OrderReferenceTemplateData struct {
 	ID string
+}
+
+// InvoicePeriodTemplateData representa período de facturación
+type InvoicePeriodTemplateData struct {
+	StartDate string
+	EndDate   string
+}
+
+// PrepaidPaymentTemplateData representa pago anticipado
+type PrepaidPaymentTemplateData struct {
+	Amount string
 }
 
 // BillingReferenceTemplateData representa referencia a factura anterior (para notas)

@@ -4,7 +4,8 @@ import (
 	"bytes"
 	"embed"
 	"fmt"
-	"text/template"
+
+	"github.com/diegofxm/ubl21-dian/documents/common"
 )
 
 //go:embed templates/*.tmpl
@@ -71,13 +72,13 @@ func (b *Builder) SetDelivery(delivery *DeliveryTemplateData) *Builder {
 	return b
 }
 
-// SetPaymentMeans establece los medios de pago
+// SetPaymentMeans agrega un medio de pago
 func (b *Builder) SetPaymentMeans(id, code, dueDate string) *Builder {
-	b.data.PaymentMeans = PaymentMeansTemplateData{
+	b.data.PaymentMeans = append(b.data.PaymentMeans, PaymentMeansTemplateData{
 		ID:      id,
 		Code:    code,
 		DueDate: dueDate,
-	}
+	})
 	return b
 }
 
@@ -105,23 +106,23 @@ func (b *Builder) SetProfileExecutionID(env string) *Builder {
 	return b
 }
 
-// SetNote establece la nota de la factura
+// SetNote agrega una nota a la factura
 func (b *Builder) SetNote(note string) *Builder {
-	b.data.Note = note
+	b.data.Notes = append(b.data.Notes, note)
 	return b
 }
 
 // Build genera el XML de la factura usando templates
 func (b *Builder) Build() ([]byte, error) {
-	// Cargar todos los templates
-	tmpl, err := template.New("invoice.tmpl").ParseFS(templatesFS, "templates/*.tmpl")
+	// Cargar templates comunes + específicos
+	tmpl, err := common.LoadCommonAndSpecificTemplates(templatesFS, "templates/*.tmpl")
 	if err != nil {
-		return nil, fmt.Errorf("error parsing templates: %w", err)
+		return nil, fmt.Errorf("error loading templates: %w", err)
 	}
 
 	// Ejecutar template principal
 	var buf bytes.Buffer
-	if err := tmpl.Execute(&buf, b.data); err != nil {
+	if err := tmpl.ExecuteTemplate(&buf, "invoice.tmpl", b.data); err != nil {
 		return nil, fmt.Errorf("error executing template: %w", err)
 	}
 

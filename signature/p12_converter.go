@@ -1,11 +1,28 @@
 package signature
 
 import (
+	"bytes"
+	"encoding/pem"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 )
+
+// cleanPEMFromBagAttributes limpia metadatos de OpenSSL (Bag Attributes, friendlyName, etc.)
+func cleanPEMFromBagAttributes(pemData []byte) []byte {
+	// Extraer solo los bloques PEM (eliminar metadatos)
+	var cleanPEM bytes.Buffer
+	for {
+		block, rest := pem.Decode(pemData)
+		if block == nil {
+			break
+		}
+		cleanPEM.Write(pem.EncodeToMemory(block))
+		pemData = rest
+	}
+	return cleanPEM.Bytes()
+}
 
 // ConvertP12ToPEMWithOpenSSL convierte un P12 a PEM usando OpenSSL
 // Esto maneja certificados en formato BER que Go no puede leer directamente
@@ -63,12 +80,14 @@ func ConvertP12ToClientPEM(p12Path, password string) (string, error) {
 
 	// Ejecutar OpenSSL con -clcerts para extraer SOLO certificado de cliente
 	// -clcerts: Solo certificados de cliente (no CA certs)
+	// Agregar -noenc para evitar encriptación y formato limpio
 	cmd := exec.Command("openssl", "pkcs12",
 		"-in", p12Path,
 		"-out", clientPemPath,
 		"-nodes",
 		"-legacy",
 		"-clcerts", // IMPORTANTE: Solo certificado de cliente
+		"-noenc",   // Sin encriptación, formato limpio
 		"-passin", "pass:"+password,
 	)
 
@@ -77,13 +96,22 @@ func ConvertP12ToClientPEM(p12Path, password string) (string, error) {
 		return "", fmt.Errorf("failed to convert P12 to client PEM: %w\nOutput: %s", err, string(output))
 	}
 
-	// Verificar contenido
+	// Limpiar metadatos de OpenSSL (Bag Attributes, friendlyName, etc.)
 	pemData, err := os.ReadFile(clientPemPath)
 	if err != nil {
-		return "", fmt.Errorf("failed to read client PEM: %w", err)
+		return "", fmt.Errorf("failed to read generated PEM: %w", err)
 	}
 
-	if len(pemData) == 0 {
+	// Extraer solo los bloques PEM (eliminar metadatos)
+	cleanPEM := cleanPEMFromBagAttributes(pemData)
+	
+	// Sobrescribir con PEM limpio
+	if err := os.WriteFile(clientPemPath, cleanPEM, 0600); err != nil {
+		return "", fmt.Errorf("failed to write clean PEM: %w", err)
+	}
+
+	// Verificar contenido final
+	if len(cleanPEM) == 0 {
 		return "", fmt.Errorf("client PEM is empty")
 	}
 

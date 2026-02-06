@@ -98,29 +98,37 @@ func LoadClientTLSConfig(certPath, keyPath string) (*tls.Config, error) {
 		keyPEM = certPEM
 	}
 
-	// Extraer certificado
+	// Extraer certificado y clave privada en un solo recorrido
 	var certDER []byte
-	block, _ := pem.Decode(certPEM)
-	if block != nil && block.Type == "CERTIFICATE" {
-		certDER = block.Bytes
-	}
-
-	// Extraer clave privada
 	var keyDER []byte
+	
+	// Primero buscar en certPEM (que puede contener ambos)
+	pemData := certPEM
 	for {
-		block, certPEM = pem.Decode(certPEM)
+		block, rest := pem.Decode(pemData)
 		if block == nil {
 			break
 		}
-		if block.Type == "PRIVATE KEY" || block.Type == "RSA PRIVATE KEY" {
+		
+		if block.Type == "CERTIFICATE" && certDER == nil {
+			certDER = block.Bytes
+		} else if (block.Type == "PRIVATE KEY" || block.Type == "RSA PRIVATE KEY") && keyDER == nil {
 			keyDER = block.Bytes
+		}
+		
+		pemData = rest
+		
+		// Si ya encontramos ambos, salir
+		if certDER != nil && keyDER != nil {
 			break
 		}
 	}
-
-	if keyDER == nil {
+	
+	// Si no encontramos la clave en certPEM, buscar en keyPEM
+	if keyDER == nil && keyPEM != nil && len(keyPEM) > 0 {
+		pemData = keyPEM
 		for {
-			block, keyPEM = pem.Decode(keyPEM)
+			block, rest := pem.Decode(pemData)
 			if block == nil {
 				break
 			}
@@ -128,6 +136,7 @@ func LoadClientTLSConfig(certPath, keyPath string) (*tls.Config, error) {
 				keyDER = block.Bytes
 				break
 			}
+			pemData = rest
 		}
 	}
 
