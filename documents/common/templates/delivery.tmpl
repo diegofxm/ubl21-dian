@@ -1,0 +1,19 @@
+{{define "delivery"}}
+<cac:Delivery>
+    <cbc:ActualDeliveryDate>{{.ActualDeliveryDate}}</cbc:ActualDeliveryDate>
+    <cac:DeliveryAddress>
+        <cbc:ID>{{.Address.ID}}</cbc:ID>
+        <cbc:CityName>{{.Address.CityName}}</cbc:CityName>
+        {{if .Address.PostalZone}}<cbc:PostalZone>{{.Address.PostalZone}}</cbc:PostalZone>{{end}}
+        <cbc:CountrySubentity>{{.Address.CountrySubentity}}</cbc:CountrySubentity>
+        <cbc:CountrySubentityCode>{{.Address.CountrySubentityCode}}</cbc:CountrySubentityCode>
+        <cac:AddressLine>
+            <cbc:Line>{{.Address.Line}}</cbc:Line>
+        </cac:AddressLine>
+        <cac:Country>
+            <cbc:IdentificationCode>{{.Address.CountryCode}}</cbc:IdentificationCode>
+            <cbc:Name languageID="es">{{.Address.CountryName}}</cbc:Name>
+        </cac:Country>
+    </cac:DeliveryAddress>
+</cac:Delivery>
+{{end}}

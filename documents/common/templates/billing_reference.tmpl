@@ -1,0 +1,9 @@
+{{define "billing_reference"}}
+<cac:BillingReference>
+  <cac:InvoiceDocumentReference>
+    <cbc:ID>{{.ID}}</cbc:ID>
+    <cbc:UUID schemeName="CUFE-SHA384">{{.UUID}}</cbc:UUID>
+    <cbc:IssueDate>{{.IssueDate}}</cbc:IssueDate>
+  </cac:InvoiceDocumentReference>
+</cac:BillingReference>
+{{end}}

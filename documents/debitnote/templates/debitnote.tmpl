@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<DebitNote
+  xmlns="urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2"
+  xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+  xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
+  xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+  xmlns:sts="dian:gov:co:facturaelectronica:Structures-2-1"
+  xmlns:xades="http://uri.etsi.org/01903/v1.3.2#"
+  xmlns:xades141="http://uri.etsi.org/01903/v1.4.1#"
+  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:oasis:names:specification:ubl:schema:xsd:DebitNote-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-DebitNote-2.1.xsd">
+  <ext:UBLExtensions>
+    <ext:UBLExtension>
+      <ext:ExtensionContent>
+        <sts:DianExtensions>
+          <sts:InvoiceControl>
+            <sts:InvoiceAuthorization>{{.InvoiceAuthorization}}</sts:InvoiceAuthorization>
+            <sts:AuthorizationPeriod>
+              <cbc:StartDate>{{.AuthPeriodStartDate}}</cbc:StartDate>
+              <cbc:EndDate>{{.AuthPeriodEndDate}}</cbc:EndDate>
+            </sts:AuthorizationPeriod>
+            <sts:AuthorizedInvoices>
+              <sts:Prefix>{{.Prefix}}</sts:Prefix>
+              <sts:From>{{.From}}</sts:From>
+              <sts:To>{{.To}}</sts:To>
+            </sts:AuthorizedInvoices>
+          </sts:InvoiceControl>
+          <sts:InvoiceSource>
+            <cbc:IdentificationCode
+              listAgencyID="6"
+              listAgencyName="United Nations Economic Commission for Europe"
+              listSchemeURI="urn:oasis:names:specification:ubl:codelist:gc:CountryIdentificationCode-2.1">CO</cbc:IdentificationCode>
+          </sts:InvoiceSource>
+          <sts:SoftwareProvider>
+            <sts:ProviderID schemeID="{{.ProviderSchemeID}}" schemeName="{{.ProviderSchemeName}}"
+              schemeAgencyID="195"
+              schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)">
+              {{.ProviderID}}
+            </sts:ProviderID>
+            <sts:SoftwareID schemeAgencyID="195"
+              schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)">
+              {{.SoftwareID}}
+            </sts:SoftwareID>
+          </sts:SoftwareProvider>
+          <sts:SoftwareSecurityCode schemeAgencyID="195"
+            schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)">
+            {{.SecurityCode}}
+          </sts:SoftwareSecurityCode>
+          <sts:AuthorizationProvider>
+            <sts:AuthorizationProviderID schemeID="4" schemeName="31"
+              schemeAgencyID="195"
+              schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)">
+              800197268
+            </sts:AuthorizationProviderID>
+          </sts:AuthorizationProvider>
+          <sts:QRCode>{{.QRCode}}</sts:QRCode>
+        </sts:DianExtensions>
+      </ext:ExtensionContent>
+    </ext:UBLExtension>
+    <ext:UBLExtension>
+      <ext:ExtensionContent>
+        <CustomTagGeneral>
+          <Interoperabilidad>
+            <Group>
+              <Collection schemeName="Información Complementaria">
+                <AdditionalInformation>
+                  <Id>1</Id>
+                  <Name />
+                  <Value />
+                </AdditionalInformation>
+              </Collection>
+            </Group>
+          </Interoperabilidad>
+        </CustomTagGeneral>
+      </ext:ExtensionContent>
+    </ext:UBLExtension>
+  </ext:UBLExtensions>
+  <cbc:UBLVersionID>UBL 2.1</cbc:UBLVersionID>
+  <cbc:CustomizationID>20</cbc:CustomizationID>
+  <cbc:ProfileID>DIAN 2.1: Nota Débito de Factura Electrónica de Venta</cbc:ProfileID>
+  <cbc:ProfileExecutionID>{{.ProfileExecutionID}}</cbc:ProfileExecutionID>
+  <cbc:ID>{{.DebitNoteNumber}}</cbc:ID>
+  <cbc:UUID schemeID="{{.Environment}}" schemeName="CUDE-SHA384">{{.CUDE}}</cbc:UUID>
+  <cbc:IssueDate>{{.IssueDate}}</cbc:IssueDate>
+  <cbc:IssueTime>{{.IssueTime}}</cbc:IssueTime>
+  <cbc:DebitNoteTypeCode>{{.DebitNoteTypeCode}}</cbc:DebitNoteTypeCode>
+  <cbc:Note>{{.Note}}</cbc:Note>
+  <cbc:DocumentCurrencyCode
+    listID="ISO 4217 Alpha"
+    listAgencyID="6"
+    listAgencyName="United Nations Economic Commission for Europe">{{.CurrencyCode}}</cbc:DocumentCurrencyCode>
+  <cbc:LineCountNumeric>{{.LineCount}}</cbc:LineCountNumeric>
+  {{if .BillingReference}}{{template "billing_reference" .BillingReference}}{{end}}
+  {{template "supplier" .Supplier}}
+  {{template "customer" .Customer}}
+  {{if .Delivery}}{{template "delivery" .Delivery}}{{end}}
+  {{range .AllowanceCharges}}{{template "allowance_charge" .}}{{end}}
+  {{range .TaxTotals}}{{template "tax_total" .}}{{end}}
+  <cac:RequestedMonetaryTotal>
+    <cbc:LineExtensionAmount currencyID="{{.CurrencyCode}}">{{.LineExtensionAmount}}</cbc:LineExtensionAmount>
+    <cbc:TaxExclusiveAmount currencyID="{{.CurrencyCode}}">{{.TaxExclusiveAmount}}</cbc:TaxExclusiveAmount>
+    <cbc:TaxInclusiveAmount currencyID="{{.CurrencyCode}}">{{.TaxInclusiveAmount}}</cbc:TaxInclusiveAmount>
+    <cbc:PayableAmount currencyID="{{.CurrencyCode}}">{{.PayableAmount}}</cbc:PayableAmount>
+  </cac:RequestedMonetaryTotal>
+  {{range .DebitNoteLines}}
+  {{template "debitnote_line" .}}
+  {{end}}
+</DebitNote>

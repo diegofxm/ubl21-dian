@@ -1,0 +1,20 @@
+{{define "supportdocument_line"}}<cac:InvoiceLine>
+    <cbc:ID>{{.ID}}</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="{{.UnitCode}}">{{.Quantity}}</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="{{.CurrencyID}}">{{.LineExtensionAmount}}</cbc:LineExtensionAmount>
+    {{if .FreeOfChargeIndicator}}<cbc:FreeOfChargeIndicator>{{.FreeOfChargeIndicator}}</cbc:FreeOfChargeIndicator>
+    {{end}}<cac:Item>
+      <cbc:Description>{{.Item.Description}}</cbc:Description>
+      {{if .Item.StandardItemID.ID}}<cac:StandardItemIdentification>
+        <cbc:ID schemeID="{{.Item.StandardItemID.SchemeID}}" schemeName="{{.Item.StandardItemID.SchemeName}}">{{.Item.StandardItemID.ID}}</cbc:ID>
+      </cac:StandardItemIdentification>
+      {{end}}{{if .Item.AdditionalItemID.ID}}<cac:AdditionalItemIdentification>
+        <cbc:ID schemeID="{{.Item.AdditionalItemID.SchemeID}}" schemeName="{{.Item.AdditionalItemID.SchemeName}}">{{.Item.AdditionalItemID.ID}}</cbc:ID>
+      </cac:AdditionalItemIdentification>
+      {{end}}</cac:Item>
+    <cac:Price>
+      <cbc:PriceAmount currencyID="{{.CurrencyID}}">{{.Price.Amount}}</cbc:PriceAmount>
+      {{if .Price.BaseQuantity}}<cbc:BaseQuantity unitCode="{{.UnitCode}}">{{.Price.BaseQuantity}}</cbc:BaseQuantity>
+      {{end}}</cac:Price>
+  </cac:InvoiceLine>
+{{end}}

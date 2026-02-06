@@ -1,0 +1,61 @@
+{{define "customer"}}
+<cac:AccountingCustomerParty>
+    <cbc:AdditionalAccountID>{{.AdditionalAccountID}}</cbc:AdditionalAccountID>
+    <cac:Party>
+        <cac:PartyName>
+            <cbc:Name>{{.PartyName}}</cbc:Name>
+        </cac:PartyName>
+        <cac:PhysicalLocation>
+            <cac:Address>
+                <cbc:ID>{{.Address.ID}}</cbc:ID>
+                <cbc:CityName>{{.Address.CityName}}</cbc:CityName>
+                {{if .Address.PostalZone}}<cbc:PostalZone>{{.Address.PostalZone}}</cbc:PostalZone>{{end}}
+                <cbc:CountrySubentity>{{.Address.CountrySubentity}}</cbc:CountrySubentity>
+                <cbc:CountrySubentityCode>{{.Address.CountrySubentityCode}}</cbc:CountrySubentityCode>
+                <cac:AddressLine>
+                    <cbc:Line>{{.Address.Line}}</cbc:Line>
+                </cac:AddressLine>
+                <cac:Country>
+                    <cbc:IdentificationCode>{{.Address.CountryCode}}</cbc:IdentificationCode>
+                    <cbc:Name languageID="es">{{.Address.CountryName}}</cbc:Name>
+                </cac:Country>
+            </cac:Address>
+        </cac:PhysicalLocation>
+        <cac:PartyTaxScheme>
+            <cbc:RegistrationName>{{.TaxScheme.RegistrationName}}</cbc:RegistrationName>
+            <cbc:CompanyID schemeID="{{.TaxScheme.CompanyIDSchemeID}}" schemeName="{{.TaxScheme.CompanyIDSchemeName}}" schemeAgencyID="195"
+                schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)">
+                {{.TaxScheme.CompanyID}}</cbc:CompanyID>
+            <cbc:TaxLevelCode listName="">{{.TaxScheme.TaxLevelCode}}</cbc:TaxLevelCode>
+            <cac:RegistrationAddress>
+                <cbc:ID>{{.Address.ID}}</cbc:ID>
+                <cbc:CityName>{{.Address.CityName}}</cbc:CityName>
+                {{if .Address.PostalZone}}<cbc:PostalZone>{{.Address.PostalZone}}</cbc:PostalZone>{{end}}
+                <cbc:CountrySubentity>{{.Address.CountrySubentity}}</cbc:CountrySubentity>
+                <cbc:CountrySubentityCode>{{.Address.CountrySubentityCode}}</cbc:CountrySubentityCode>
+                <cac:AddressLine>
+                    <cbc:Line>{{.Address.Line}}</cbc:Line>
+                </cac:AddressLine>
+                <cac:Country>
+                    <cbc:IdentificationCode>{{.Address.CountryCode}}</cbc:IdentificationCode>
+                    <cbc:Name languageID="es">{{.Address.CountryName}}</cbc:Name>
+                </cac:Country>
+            </cac:RegistrationAddress>
+            <cac:TaxScheme>
+                <cbc:ID>{{.TaxScheme.ID}}</cbc:ID>
+                <cbc:Name>{{.TaxScheme.Name}}</cbc:Name>
+            </cac:TaxScheme>
+        </cac:PartyTaxScheme>
+        <cac:PartyLegalEntity>
+            <cbc:RegistrationName>{{.LegalEntity.RegistrationName}}</cbc:RegistrationName>
+            <cbc:CompanyID schemeID="{{.LegalEntity.CompanyIDSchemeID}}" schemeName="{{.LegalEntity.CompanyIDSchemeName}}" schemeAgencyID="195"
+                schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)">
+                {{.LegalEntity.CompanyID}}</cbc:CompanyID>
+        </cac:PartyLegalEntity>
+        <cac:Contact>
+            <cbc:Telephone>{{.Contact.Telephone}}</cbc:Telephone>
+            <cbc:ElectronicMail>{{.Contact.Email}}</cbc:ElectronicMail>
+        </cac:Contact>
+    </cac:Party>
+</cac:AccountingCustomerParty>
+{{end}}

@@ -1,0 +1,8 @@
+{{define "allowance_charge"}}
+<cac:AllowanceCharge>
+  <cbc:ID>{{.ID}}</cbc:ID>
+  <cbc:ChargeIndicator>{{.ChargeIndicator}}</cbc:ChargeIndicator>
+  <cbc:AllowanceChargeReason>{{.AllowanceChargeReason}}</cbc:AllowanceChargeReason>
+  <cbc:Amount currencyID="{{.CurrencyID}}">{{.Amount}}</cbc:Amount>
+  {{if .BaseAmount}}<cbc:BaseAmount currencyID="{{.CurrencyID}}">{{.BaseAmount}}</cbc:BaseAmount>{{end}}</cac:AllowanceCharge>
+{{end}}

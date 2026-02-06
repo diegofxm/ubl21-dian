@@ -1,0 +1,12 @@
+{{define "sender_party"}}<cac:SenderParty>
+    <cac:PartyTaxScheme>
+      <cbc:RegistrationName>{{.RegistrationName}}</cbc:RegistrationName>
+      <cbc:CompanyID schemeAgencyID="195" schemeAgencyName="CO, DIAN (Dirección de Impuestos y Aduanas Nacionales)" schemeID="{{.SchemeID}}" schemeName="{{.SchemeName}}">{{.CompanyID}}</cbc:CompanyID>
+      {{if .TaxLevelCode}}<cbc:TaxLevelCode listName="Fiscal Responsibility">{{.TaxLevelCode}}</cbc:TaxLevelCode>
+      {{end}}<cac:TaxScheme>
+        <cbc:ID>{{.TaxSchemeID}}</cbc:ID>
+        <cbc:Name>{{.TaxSchemeName}}</cbc:Name>
+      </cac:TaxScheme>
+    </cac:PartyTaxScheme>
+  </cac:SenderParty>
+{{end}}

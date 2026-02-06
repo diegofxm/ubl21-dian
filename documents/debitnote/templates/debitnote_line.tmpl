@@ -1,0 +1,23 @@
+{{define "debitnote_line"}}
+<cac:DebitNoteLine>
+  <cbc:ID>{{.ID}}</cbc:ID>
+  <cbc:DebitedQuantity unitCode="{{.UnitCode}}">{{.Quantity}}</cbc:DebitedQuantity>
+  <cbc:LineExtensionAmount currencyID="{{.CurrencyID}}">{{.LineExtensionAmount}}</cbc:LineExtensionAmount>
+  <cbc:FreeOfChargeIndicator>{{.FreeOfChargeIndicator}}</cbc:FreeOfChargeIndicator>
+  <cac:Item>
+    <cbc:Description>{{.Item.Description}}</cbc:Description>
+    <cac:StandardItemIdentification>
+      <cbc:ID schemeID="{{.Item.StandardItemID.SchemeID}}">{{.Item.StandardItemID.ID}}</cbc:ID>
+    </cac:StandardItemIdentification>
+    <cac:AdditionalItemIdentification>
+      <cbc:ID
+        schemeID="{{.Item.AdditionalItemID.SchemeID}}"
+        schemeName="{{.Item.AdditionalItemID.SchemeName}}">{{.Item.AdditionalItemID.ID}}</cbc:ID>
+    </cac:AdditionalItemIdentification>
+  </cac:Item>
+  <cac:Price>
+    <cbc:PriceAmount currencyID="{{.CurrencyID}}">{{.Price.Amount}}</cbc:PriceAmount>
+    <cbc:BaseQuantity unitCode="{{.UnitCode}}">{{.Price.BaseQuantity}}</cbc:BaseQuantity>
+  </cac:Price>
+</cac:DebitNoteLine>
+{{end}}
