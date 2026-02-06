@@ -4,6 +4,18 @@ import (
 	"github.com/diegofxm/ubl21-dian/soap/types"
 )
 
+// convertErrorMessages convierte []ErrorMessageXML a []types.ErrorMessage
+func convertErrorMessages(xmlErrors []ErrorMessageXML) []types.ErrorMessage {
+	var errors []types.ErrorMessage
+	for _, errMsg := range xmlErrors {
+		errors = append(errors, types.ErrorMessage{
+			Code:        errMsg.Code,
+			Description: errMsg.Description,
+		})
+	}
+	return errors
+}
+
 // ToSendBillSyncResponse convierte ResponseXML a SendBillSyncResponse
 func ToSendBillSyncResponse(xmlResp *ResponseXML) *types.SendBillSyncResponse {
 	resp := &types.SendBillSyncResponse{
@@ -12,18 +24,11 @@ func ToSendBillSyncResponse(xmlResp *ResponseXML) *types.SendBillSyncResponse {
 			StatusCode:        xmlResp.StatusCode,
 			StatusDescription: xmlResp.StatusDescription,
 			StatusMessage:     xmlResp.StatusMessage,
+			ErrorMessages:     convertErrorMessages(xmlResp.ErrorMessage),
 			XmlDocumentKey:    xmlResp.XmlDocumentKey,
 			XmlBase64Bytes:    xmlResp.XmlBase64Bytes,
 		},
 	}
-
-	for _, errMsg := range xmlResp.ErrorMessage {
-		resp.ErrorMessage = append(resp.ErrorMessage, types.ErrorMessage{
-			Code:        errMsg.Code,
-			Description: errMsg.Description,
-		})
-	}
-
 	return resp
 }
 
@@ -35,18 +40,12 @@ func ToSendBillAsyncResponse(xmlResp *ResponseXML) *types.SendBillAsyncResponse 
 			StatusCode:        xmlResp.StatusCode,
 			StatusDescription: xmlResp.StatusDescription,
 			StatusMessage:     xmlResp.StatusMessage,
+			ErrorMessages:     convertErrorMessages(xmlResp.ErrorMessage),
 			XmlDocumentKey:    xmlResp.XmlDocumentKey,
 			XmlBase64Bytes:    xmlResp.XmlBase64Bytes,
+			ZipKey:            xmlResp.ZipKey,
 		},
 	}
-
-	for _, errMsg := range xmlResp.ErrorMessage {
-		resp.ErrorMessage = append(resp.ErrorMessage, types.ErrorMessage{
-			Code:        errMsg.Code,
-			Description: errMsg.Description,
-		})
-	}
-
 	return resp
 }
 
@@ -58,18 +57,11 @@ func ToSendTestSetAsyncResponse(xmlResp *ResponseXML) *types.SendTestSetAsyncRes
 			StatusCode:        xmlResp.StatusCode,
 			StatusDescription: xmlResp.StatusDescription,
 			StatusMessage:     xmlResp.StatusMessage,
+			ErrorMessages:     convertErrorMessages(xmlResp.ErrorMessage),
 			XmlDocumentKey:    xmlResp.XmlDocumentKey,
 			XmlBase64Bytes:    xmlResp.XmlBase64Bytes,
 		},
 	}
-
-	for _, errMsg := range xmlResp.ErrorMessage {
-		resp.ErrorMessage = append(resp.ErrorMessage, types.ErrorMessage{
-			Code:        errMsg.Code,
-			Description: errMsg.Description,
-		})
-	}
-
 	return resp
 }
 
@@ -81,18 +73,11 @@ func ToGetStatusResponse(xmlResp *ResponseXML) *types.GetStatusResponse {
 			StatusCode:        xmlResp.StatusCode,
 			StatusDescription: xmlResp.StatusDescription,
 			StatusMessage:     xmlResp.StatusMessage,
+			ErrorMessages:     convertErrorMessages(xmlResp.ErrorMessage),
 			XmlDocumentKey:    xmlResp.XmlDocumentKey,
 			XmlBase64Bytes:    xmlResp.XmlBase64Bytes,
 		},
 	}
-
-	for _, errMsg := range xmlResp.ErrorMessage {
-		resp.ErrorMessage = append(resp.ErrorMessage, types.ErrorMessage{
-			Code:        errMsg.Code,
-			Description: errMsg.Description,
-		})
-	}
-
 	return resp
 }
 
@@ -123,18 +108,11 @@ func ToSendBillAttachmentAsyncResponse(xmlResp *ResponseXML) *types.SendBillAtta
 			StatusCode:        xmlResp.StatusCode,
 			StatusDescription: xmlResp.StatusDescription,
 			StatusMessage:     xmlResp.StatusMessage,
+			ErrorMessages:     convertErrorMessages(xmlResp.ErrorMessage),
 			XmlDocumentKey:    xmlResp.XmlDocumentKey,
 			XmlBase64Bytes:    xmlResp.XmlBase64Bytes,
 		},
 	}
-
-	for _, errMsg := range xmlResp.ErrorMessage {
-		resp.ErrorMessage = append(resp.ErrorMessage, types.ErrorMessage{
-			Code:        errMsg.Code,
-			Description: errMsg.Description,
-		})
-	}
-
 	return resp
 }
 
@@ -146,18 +124,11 @@ func ToSendEventResponse(xmlResp *ResponseXML) *types.SendEventResponse {
 			StatusCode:        xmlResp.StatusCode,
 			StatusDescription: xmlResp.StatusDescription,
 			StatusMessage:     xmlResp.StatusMessage,
+			ErrorMessages:     convertErrorMessages(xmlResp.ErrorMessage),
 			XmlDocumentKey:    xmlResp.XmlDocumentKey,
 			XmlBase64Bytes:    xmlResp.XmlBase64Bytes,
 		},
 	}
-
-	for _, errMsg := range xmlResp.ErrorMessage {
-		resp.ErrorMessage = append(resp.ErrorMessage, types.ErrorMessage{
-			Code:        errMsg.Code,
-			Description: errMsg.Description,
-		})
-	}
-
 	return resp
 }
 
@@ -169,18 +140,11 @@ func ToSendNominaSyncResponse(xmlResp *ResponseXML) *types.SendNominaSyncRespons
 			StatusCode:        xmlResp.StatusCode,
 			StatusDescription: xmlResp.StatusDescription,
 			StatusMessage:     xmlResp.StatusMessage,
+			ErrorMessages:     convertErrorMessages(xmlResp.ErrorMessage),
 			XmlDocumentKey:    xmlResp.XmlDocumentKey,
 			XmlBase64Bytes:    xmlResp.XmlBase64Bytes,
 		},
 	}
-
-	for _, errMsg := range xmlResp.ErrorMessage {
-		resp.ErrorMessage = append(resp.ErrorMessage, types.ErrorMessage{
-			Code:        errMsg.Code,
-			Description: errMsg.Description,
-		})
-	}
-
 	return resp
 }
 
@@ -192,18 +156,11 @@ func ToGetStatusEventResponse(xmlResp *ResponseXML) *types.GetStatusEventRespons
 			StatusCode:        xmlResp.StatusCode,
 			StatusDescription: xmlResp.StatusDescription,
 			StatusMessage:     xmlResp.StatusMessage,
+			ErrorMessages:     convertErrorMessages(xmlResp.ErrorMessage),
 			XmlDocumentKey:    xmlResp.XmlDocumentKey,
 			XmlBase64Bytes:    xmlResp.XmlBase64Bytes,
 		},
 	}
-
-	for _, errMsg := range xmlResp.ErrorMessage {
-		resp.ErrorMessage = append(resp.ErrorMessage, types.ErrorMessage{
-			Code:        errMsg.Code,
-			Description: errMsg.Description,
-		})
-	}
-
 	return resp
 }
 

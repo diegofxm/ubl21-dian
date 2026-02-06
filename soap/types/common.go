@@ -26,9 +26,10 @@ type Response struct {
 	StatusCode        string
 	StatusDescription string
 	StatusMessage     string
-	ErrorMessage      []ErrorMessage
-	XmlDocumentKey    string
-	XmlBase64Bytes    string
+	ErrorMessages     []ErrorMessage
+	XmlDocumentKey    string // TrackId para consultas GetStatus
+	XmlBase64Bytes    string // XML firmado en base64
+	ZipKey            string // TrackId para SendBillAsync (lotes)
 }
 
 // ErrorMessage mensaje de error de DIAN

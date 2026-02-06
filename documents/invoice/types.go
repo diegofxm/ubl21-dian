@@ -230,6 +230,7 @@ type InvoiceLineTemplateData struct {
 	LineExtensionAmount   string
 	FreeOfChargeIndicator string
 	CurrencyID            string
+	TaxTotal              *TaxTotalTemplateData
 	Item                  ItemTemplateData
 	Price                 PriceTemplateData
 }
@@ -272,9 +273,8 @@ type TaxSubtotalTemplateData struct {
 
 // TaxCategoryTemplateData representa categoría de impuesto
 type TaxCategoryTemplateData struct {
-	ID         string // "01" = IVA, "04" = INC, "03" = ICA
-	Name       string
-	TaxScheme  string
+	Percent   string
+	TaxScheme TaxSchemeTemplateData
 }
 
 // AllowanceChargeTemplateData representa descuentos o cargos

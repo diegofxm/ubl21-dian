@@ -128,6 +128,7 @@ type ResponseXML struct {
 	ErrorMessage      []ErrorMessageXML `xml:"ErrorMessage>DianResponse"`
 	XmlDocumentKey    string            `xml:"XmlDocumentKey"`
 	XmlBase64Bytes    string            `xml:"XmlBase64Bytes"`
+	ZipKey            string            `xml:"ZipKey"`
 }
 
 // ErrorMessageXML mensaje de error XML

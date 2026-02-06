@@ -4,6 +4,7 @@
   <cbc:InvoicedQuantity unitCode="{{.UnitCode}}">{{.Quantity}}</cbc:InvoicedQuantity>
   <cbc:LineExtensionAmount currencyID="{{.CurrencyID}}">{{.LineExtensionAmount}}</cbc:LineExtensionAmount>
   <cbc:FreeOfChargeIndicator>{{.FreeOfChargeIndicator}}</cbc:FreeOfChargeIndicator>
+  {{if .TaxTotal}}{{template "tax_total" .TaxTotal}}{{end}}
   <cac:Item>
     <cbc:Description>{{.Item.Description}}</cbc:Description>
     <cac:StandardItemIdentification>

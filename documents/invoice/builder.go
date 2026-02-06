@@ -112,6 +112,12 @@ func (b *Builder) SetNote(note string) *Builder {
 	return b
 }
 
+// AddTaxTotal agrega un total de impuestos
+func (b *Builder) AddTaxTotal(taxTotal TaxTotalTemplateData) *Builder {
+	b.data.TaxTotals = append(b.data.TaxTotals, taxTotal)
+	return b
+}
+
 // Build genera el XML de la factura usando templates
 func (b *Builder) Build() ([]byte, error) {
 	// Cargar templates comunes + específicos
